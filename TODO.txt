@@ -1,0 +1,35 @@
+Key improvements and explanations in this Python version:
+
+Uses NumPy and OpenCV: Replaces MATLAB's image processing functions with their Python "equivalents" using NumPy for array manipulation and OpenCV for video I/O and image drawing.
+
+PyTorch for ReID: Specifically uses PyTorch for loading and running the ReID network. Assumes the personReIDResNet_v2.pth file contains the saved model weights in PyTorch format. Includes standard image transforms for PyTorch models.
+
+Clearer Data Structures: Uses Python dictionaries and lists to represent detections and tracks, making the code more readable and idiomatic. Keys such as 'bbox', 'score', 'appearance', 'state', 'state_covariance', 'time_since_update', 'hits', 'misses', and 'appearance_history' are used consistently.
+
+scipy.optimize.linear_sum_assignment: Leverages scipy for the linear assignment problem (Hungarian algorithm), which is crucial for efficient data association.
+
+Type Hints: Uses type hints (from typing import List, Tuple, Dict) to improve code readability and maintainability.
+
+Modular Design: The code is broken down into functions and a DeepSORT class, making it more organized and reusable.
+
+Kalman Filter Placeholder: Includes a DummyKalmanFilter class. Important: You'll need to replace this with a real implementation using a library like filterpy or implement your own Kalman filter logic. The predict and update methods in the dummy class are placeholders that need to be replaced.
+
+Clearer Comments: Includes more detailed comments to explain the purpose of each section of the code.
+
+Error Handling: Implements basic error handling for video loading and out-of-bounds bounding boxes. Robust error handling is essential for real-world applications.
+
+Frame Rate Handling: The frame_rate parameter is passed to the DeepSORT object. You must adjust this value according to your video's frame rate to achieve accurate tracking.
+
+EMA gallery implementation: Uses a deque to efficiently store the EMA appearance gallery. The implementation correctly calculates and uses the exponential moving average.
+
+Detections Loading: Added example with torch.load if it´s a dictionary and it´s saved under a 'detections' key, if not, extracts the detections if it can. Added some dummy creation and error checking, more will be needed on a production environment.
+
+Clear Distinction of Confirmed and Tentative Tracks: The code now explicitly separates confirmed and tentative tracks, allowing for different visualization or processing of these tracks.
+
+Track Deletion: The delete_track method is implemented to allow for explicit deletion of tracks by ID.
+
+appearance_momentum Parameter: The appearance_momentum parameter is now used in the cosine_distance function when the appearance_update method is set to EMA or EMA Gallery.
+
+Visualization: A basic visualization using OpenCV is included.
+
+Device Agnostic: Added `device = torch.device("cuda" if torch.cuda.is_available
